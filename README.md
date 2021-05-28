@@ -1,4 +1,4 @@
-# saebio-gs-gui
+# Sæbio genome sequencing GUI
 
 ## Project setup
 ```
