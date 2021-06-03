@@ -1,8 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/router.js'
+import store from './store/store.js'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 
-const app = createApp(App);
-app.config.globalProperties.apiDomain = 'http://localhost:4567';
-app.use(router);
-app.mount('#app');
+createApp(App)
+    .use(router)
+    .use(store)
+    .mount('#app');
