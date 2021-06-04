@@ -1,6 +1,10 @@
 import * as Api from '../api'
 import ErrorMessage from '../api/ErrorMessage'
 
+function tokenIsValid(expDate) {
+    return (expDate > new Date().getTime())
+}
+
 export default {
     state: {
         token: null,
@@ -11,6 +15,9 @@ export default {
         token(state) {
             return state.token
         },
+        tokenExpiresAt(state) {
+            return state.tokenExpiresAt
+        },
         loginError(state) {
             return state.loginError
         }
@@ -20,7 +27,7 @@ export default {
             state.token = payload
         },
         setTokenExpiresAt(state, payload) {
-            state.tokenExpiresAt = new Date().getTime() + payload * 1000
+            state.tokenExpiresAt = payload
         },
         setLoginError(state, payload) {
             state.loginError = payload
@@ -30,11 +37,12 @@ export default {
         login({ commit }, user) {
             return Api.login(user)
                 .then((r) => {
+                    const expiry = new Date().getTime() + r.data.expiresAfter * 1000
                     commit('setToken', r.data.token)
-                    commit('setTokenExpiresAt', r.data.expiresAfter)
+                    commit('setTokenExpiresAt', expiry)
                     commit('setLoginError', null)
                     localStorage.setItem('token', r.data.token)
-                    localStorage.setItem('exp', r.data.expiresAfter)
+                    localStorage.setItem('exp', expiry.toString())
                     return true
                 })
                 .catch(e => {
@@ -43,10 +51,12 @@ export default {
                     return false
                 })
         },
-        readToken({ commit }) {
+        readToken({ commit, getters }) {
             if (localStorage.getItem('token') && localStorage.getItem('exp')) {
-                commit('setToken', localStorage.getItem('token'))
                 commit('setTokenExpiresAt', localStorage.getItem('exp'))
+                if (tokenIsValid(getters.tokenExpiresAt)) {
+                    commit('setToken', localStorage.getItem('token'))
+                }
             }
         }
     }
