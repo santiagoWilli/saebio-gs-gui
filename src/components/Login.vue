@@ -1,5 +1,5 @@
 <template>
-    <div id="login-form" class="mx-auto">
+    <div id="login-form" class="mx-auto mt-5">
         <form @submit.prevent="login(user)">
             <div class="form-group">
                 <label for="username">Nombre de usuario</label>
@@ -12,10 +12,11 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <div v-if="loginError" class="text-center text-danger">{{ loginError }}</div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Login',
@@ -27,8 +28,16 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters(['loginError'])
+    },
     methods: {
-        ...mapActions(['login'])
+        login(user) {
+            return this.$store.dispatch('login', user)
+                .then(r => {
+                    if (r) this.$router.push('/')
+                })
+        }
     }
 }
 </script>

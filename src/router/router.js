@@ -3,7 +3,7 @@ import Home from "@/components/Home";
 import Login from "@/components/Login";
 import Sequences from "@/components/Sequences";
 import References from "@/components/References";
-import store from "@/store/store";
+import store from "@/store";
 
 const routes = [
     { path: '/', component: Home },
@@ -18,8 +18,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(store.getters.token)
-    console.log(to.path)
     if (to.path !== '/login' && store.getters.token == null) {
         next('/login')
     } else if (to.path === '/login' && store.getters.token != null) {
