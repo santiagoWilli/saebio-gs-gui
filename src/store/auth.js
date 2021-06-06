@@ -51,6 +51,12 @@ export default {
                     return false
                 })
         },
+        logout({ commit }) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('exp')
+            commit('setToken', null)
+            commit('setTokenExpiresAt', null)
+        },
         readToken({ commit, getters }) {
             if (localStorage.getItem('token') && localStorage.getItem('exp')) {
                 commit('setTokenExpiresAt', localStorage.getItem('exp'))

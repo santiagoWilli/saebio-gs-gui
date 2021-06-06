@@ -1,6 +1,6 @@
 <template>
     <nav v-if="token" class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Sæbio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,6 +8,9 @@
             <div class="navbar-nav">
                 <router-link to="/sequences" class="nav-item nav-link active">Secuencias</router-link>
                 <router-link to="/references" class="nav-item nav-link">Referencias</router-link>
+            </div>
+            <div id="navbar-logout">
+                <button class="btn text-dark nav-item nav-link float-end" @click.prevent="logout">Cerrar sesión</button>
             </div>
         </div>
     </nav>
@@ -21,7 +24,11 @@ import { mapActions } from 'vuex'
 export default {
     name: 'App',
     methods: {
-        ...mapActions(['readToken'])
+        ...mapActions(['readToken']),
+        logout() {
+            this.$store.dispatch('logout')
+            this.$router.push('/login')
+        }
     },
     computed: {
         ...mapGetters(['token'])
@@ -34,9 +41,19 @@ export default {
 
 <style>
 #app {
-      font-family: Avenir, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      color: #2c3e50;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+}
+
+/*noinspection CssInvalidPropertyValue*/
+#navbar-logout {
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+}
+#navbar-logout > button {
+    color: rgba(0,0,0,.9)
 }
 </style>
