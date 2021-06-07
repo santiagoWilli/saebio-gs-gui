@@ -8,8 +8,18 @@ export const login = (user) => globalAxios.post(`${endpoint}/login`, objectToURL
     },
 })
 
+export const getSequences = (token) => globalAxios.get(`${endpoint}/sequences`, authorization(token))
+
 function objectToURLParams(object) {
     const params = new URLSearchParams()
     for (let key in object) params.append(key, object[key])
     return params
+}
+
+function authorization(token) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }
 }

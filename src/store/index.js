@@ -1,8 +1,10 @@
 import { createStore } from 'vuex'
-import auth from './auth'
+import auth from "@/store/auth";
+import sequences from "@/store/sequences";
 
 export default createStore({
     modules: {
-        auth
+        auth,
+        sequences
     }
 })
