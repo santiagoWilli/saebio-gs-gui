@@ -5,9 +5,9 @@
             <dt>Cepa</dt>
             <dd><i>{{ sequence.strain.name }}</i> {{ sequence.code }}</dd>
             <dt>Fecha de la secuencia</dt>
-            <dd>{{ date(sequence) }}</dd>
+            <dd>{{ date(sequence.sequenceDate) }}</dd>
             <dt>Nombre de los ficheros subidos</dt>
-            <dd>{{ originalNames(sequence) }}</dd>
+            <dd>{{ originalNames() }}</dd>
             <div v-if="sequence.genomeToolToken">
                 <dt>Fecha de solicitud del trimming</dt>
                 <dd>{{ date(sequence.trimRequestDate) }}</dd>
@@ -15,7 +15,8 @@
             <dt>Archivos trimmeados</dt>
             <dd v-if="sequence.trimmedPair === false">Se produjo un error en el proceso del trimming</dd>
             <dd v-else-if="sequence.trimmedPair" class="ml-0">
-                <button class="btn">Descargar</button>
+                <button class="btn" @click="downloadTrimmedFiles()" :disabled="downloading">Descargar</button>
+                <span v-if="downloadError">Se produjo un error en la descarga. Código {{ downloadError }}</span>
             </dd>
             <dd v-else>El trimming aún está en proceso</dd>
         </dl>
@@ -24,22 +25,56 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as Api from '../api'
 
 export default {
     name: 'References',
+    data: () => ({
+        error: null,
+        downloadInProgress: false
+    }),
     computed: {
-        ...mapGetters(['sequence']),
-        ...mapGetters(['sequenceError'])
+        sequence() {
+            return this.$store.getters.sequence
+        },
+        ...mapGetters(['sequenceError']),
+        downloadError() {
+            return this.error
+        },
+        downloading() {
+            return this.downloadInProgress
+        }
     },
     methods: {
         date(dateString) {
             const date = new Date(dateString)
             return date.toLocaleDateString();
         },
-        originalNames(sequence) {
+        originalNames() {
             let result = ''
-            for (let i in sequence.originalFilenames) result += `${sequence.originalFilenames[i]}, `
+            for (let i in this.sequence.originalFilenames) result += `${this.sequence.originalFilenames[i]}, `
             return result.substring(0, result.length - 2)
+        },
+        downloadTrimmedFiles() {
+            this.downloadInProgress = true
+            document.getElementById('app').classList.add('cursor-progress')
+
+            const vm = this
+            const label = `${this.sequence.originalFilenames[0].split('_')[0]}.zip`
+            Api.getSequenceTrimmedFiles(this.sequence._id.$oid, this.$store.getters.token)
+                .then(response => {
+                    const blob = new Blob([response.data], { type: 'application/zip' })
+                    const link = document.createElement('a')
+                    link.href = URL.createObjectURL(blob)
+                    link.download = label
+                    link.click()
+                    URL.revokeObjectURL(link.href)
+                }).catch(e => {
+                    vm.error = e.response.status
+                }).finally(() => {
+                    document.getElementById('app').classList.remove('cursor-progress')
+                    vm.downloadInProgress = false
+            })
         }
     },
     mounted() {
@@ -48,5 +83,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.cursor-progress {
+    cursor: progress !important;
+}
 </style>
