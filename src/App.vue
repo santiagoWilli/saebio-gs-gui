@@ -14,7 +14,9 @@
             </div>
         </div>
     </nav>
-    <router-view/>
+    <div id="content">
+        <router-view/>
+    </div>
 </template>
 
 <script>
@@ -55,5 +57,15 @@ export default {
 }
 #navbar-logout > button {
     color: rgba(0,0,0,.9)
+}
+
+#content {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+dd {
+    margin-left: 0.75rem !important;
 }
 </style>

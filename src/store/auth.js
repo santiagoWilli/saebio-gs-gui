@@ -46,7 +46,6 @@ export default {
                     return true
                 })
                 .catch(e => {
-                    console.log(e.response)
                     commit('setLoginError', ErrorMessage.login(e.response.status))
                     return false
                 })

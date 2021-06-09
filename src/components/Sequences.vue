@@ -3,10 +3,14 @@
         <Table :headers="headers">
             <tr
                 v-for="sequence in sequences"
-                :key="sequence.id"
+                :key="getId(sequence)"
+                @click="goToSequenceWithId(getId(sequence))"
+                @mouseover="hoveredTr = getId(sequence)"
+                @mouseleave="hoveredTr = null"
+                :class="{ 'table-secondary cursor-pointer': hovered === getId(sequence) }"
             >
                 <td>{{ originalName(sequence) }}</td>
-                <td>{{ sequence.sequenceDate }}</td>
+                <td>{{ date(sequence) }}</td>
                 <td>{{ sequence.trimmedPair ? 'Sí' : 'No' }}</td>
             </tr>
         </Table>
@@ -23,15 +27,32 @@ export default {
     data() {
         return {
             headers: ['Nombre original', 'Fecha', 'Trimmed'],
+            hoveredTr: null
         }
     },
     computed: {
-        ...mapGetters(['sequences'])
+        ...mapGetters(['sequences']),
+        hovered() {
+            return this.hoveredTr
+        }
     },
     methods: {
         originalName(sequence) {
             const filename = sequence.originalFilenames[0].split('_')
             return `${filename[0]}_${filename[1]}`
+        },
+        goToSequenceWithId(id) {
+            this.$router.push({
+                name: 'Sequence',
+                params: { id }
+            })
+        },
+        getId(sequence) {
+            return sequence._id.$oid
+        },
+        date(sequence) {
+            const date = new Date(sequence.sequenceDate)
+            return date.toLocaleDateString();
         }
     },
     mounted() {
@@ -44,4 +65,7 @@ export default {
 </script>
 
 <style scoped>
+    .cursor-pointer {
+        cursor: pointer;
+    }
 </style>

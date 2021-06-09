@@ -3,6 +3,7 @@ import Home from "@/components/Home";
 import Login from "@/components/Login";
 import Sequences from "@/components/Sequences";
 import References from "@/components/References";
+import Sequence from "@/components/Sequence";
 import store from "@/store";
 
 const routes = [
@@ -10,6 +11,7 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/sequences', component: Sequences },
     { path: '/references', component: References },
+    { path: '/sequences/:id', component: Sequence, name: 'Sequence' },
 ];
 
 const router = createRouter({

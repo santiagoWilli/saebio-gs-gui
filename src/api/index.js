@@ -10,6 +10,8 @@ export const login = (user) => globalAxios.post(`${endpoint}/login`, objectToURL
 
 export const getSequences = (token) => globalAxios.get(`${endpoint}/sequences`, authorization(token))
 
+export const getSequence = (id, token) => globalAxios.get(`${endpoint}/sequences/${id}`, authorization(token))
+
 function objectToURLParams(object) {
     const params = new URLSearchParams()
     for (let key in object) params.append(key, object[key])
