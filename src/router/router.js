@@ -10,8 +10,8 @@ const routes = [
     { path: '/', component: Home },
     { path: '/login', component: Login },
     { path: '/sequences', component: Sequences },
-    { path: '/references', component: References },
     { path: '/sequences/:id', component: Sequence, name: 'Sequence' },
+    { path: '/references', component: References },
 ];
 
 const router = createRouter({

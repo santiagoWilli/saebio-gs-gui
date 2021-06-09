@@ -26,6 +26,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as Api from '../api'
+import Utils from "@/Utils";
 
 export default {
     name: 'References',
@@ -63,12 +64,7 @@ export default {
             const label = `${this.sequence.originalFilenames[0].split('_')[0]}.zip`
             Api.getSequenceTrimmedFiles(this.sequence._id.$oid, this.$store.getters.token)
                 .then(response => {
-                    const blob = new Blob([response.data], { type: 'application/zip' })
-                    const link = document.createElement('a')
-                    link.href = URL.createObjectURL(blob)
-                    link.download = label
-                    link.click()
-                    URL.revokeObjectURL(link.href)
+                    Utils.download(response, label, 'application/zip')
                 }).catch(e => {
                     vm.error = e.response.status
                 }).finally(() => {

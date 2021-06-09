@@ -20,6 +20,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Table from "@/components/Table";
+import Utils from "@/Utils";
 
 export default {
     name: 'Sequences',
@@ -48,7 +49,7 @@ export default {
             })
         },
         getId(sequence) {
-            return sequence._id.$oid
+            return Utils.getId(sequence)
         },
         date(sequence) {
             const date = new Date(sequence.sequenceDate)
