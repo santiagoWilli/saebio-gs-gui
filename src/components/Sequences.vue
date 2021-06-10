@@ -35,7 +35,7 @@ export default {
     computed: {
         ...mapGetters(['sequences']),
         strains() {
-            return this.$store.getters.strains
+            return this.$store.getters.indexedStrains
         },
         hovered() {
             return this.hoveredTr
@@ -68,7 +68,7 @@ export default {
             .then(r => {
                 if (!r) this.$router.push('/login')
             })
-        this.$store.dispatch('getStrains')
+        this.$store.dispatch('getIndexedStrains')
     }
 }
 </script>

@@ -7,7 +7,7 @@
             <dt>Fecha de la secuencia</dt>
             <dd>{{ date(sequence.sequenceDate) }}</dd>
             <dt>Nombre de los ficheros subidos</dt>
-            <dd>{{ originalNames() }}</dd>
+            <dd>{{ sequence.originalFilenames.join(', ') }}</dd>
             <div v-if="sequence.genomeToolToken">
                 <dt>Fecha de solicitud del trimming</dt>
                 <dd>{{ date(sequence.trimRequestDate) }}</dd>
@@ -50,11 +50,6 @@ export default {
         date(dateString) {
             const date = new Date(dateString)
             return date.toLocaleDateString();
-        },
-        originalNames() {
-            let result = ''
-            for (let i in this.sequence.originalFilenames) result += `${this.sequence.originalFilenames[i]}, `
-            return result.substring(0, result.length - 2)
         },
         downloadTrimmedFiles() {
             this.downloadInProgress = true

@@ -34,7 +34,7 @@ export default {
     computed: {
         ...mapGetters(['references']),
         strains() {
-            return this.$store.getters.strains
+            return this.$store.getters.indexedStrains
         }
     },
     methods: {
@@ -54,7 +54,7 @@ export default {
             .then(r => {
                 if (!r) this.$router.push('/login')
             })
-        this.$store.dispatch('getStrains')
+        this.$store.dispatch('getIndexedStrains')
     }
 }
 </script>

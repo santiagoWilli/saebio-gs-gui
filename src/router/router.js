@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from "@/store";
 import Home from "@/components/Home";
 import Login from "@/components/Login";
 import Sequences from "@/components/Sequences";
 import References from "@/components/References";
 import Sequence from "@/components/Sequence";
-import store from "@/store";
+import Strains from "@/components/Strains";
 
 const routes = [
     { path: '/', component: Home },
@@ -12,6 +13,7 @@ const routes = [
     { path: '/sequences', component: Sequences },
     { path: '/sequences/:id', component: Sequence, name: 'Sequence' },
     { path: '/references', component: References },
+    { path: '/strains', component: Strains },
 ];
 
 const router = createRouter({

@@ -1,6 +1,6 @@
 <template>
     <nav v-if="token" class="navbar navbar-expand-lg navbar-light bg-light mb-5 px-4">
-        <a class="navbar-brand" href="#">Sæbio</a>
+        <button class="navbar-brand btn" disabled>Sæbio</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,6 +8,7 @@
             <div class="navbar-nav">
                 <router-link to="/sequences" class="nav-item nav-link active">Secuencias</router-link>
                 <router-link to="/references" class="nav-item nav-link">Referencias</router-link>
+                <router-link to="/strains" class="nav-item nav-link">Cepas</router-link>
             </div>
             <div id="navbar-logout">
                 <button class="btn text-dark nav-item nav-link float-end" @click.prevent="logout">Cerrar sesión</button>
