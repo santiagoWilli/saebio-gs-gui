@@ -14,7 +14,7 @@
             </div>
             <dt>Archivos trimmeados</dt>
             <dd v-if="sequence.trimmedPair === false">Se produjo un error en el proceso del trimming</dd>
-            <dd v-else-if="sequence.trimmedPair" class="ml-0">
+            <dd v-else-if="sequence.trimmedPair" class="m-0">
                 <button class="btn" @click="downloadTrimmedFiles()" :disabled="downloading">Descargar</button>
                 <span v-if="downloadError">Se produjo un error en la descarga. Código {{ downloadError }}</span>
             </dd>

@@ -5,7 +5,7 @@
                 v-for="(reference, index) in references"
                 :key="index"
             >
-                <td>{{ reference.strain }}</td>
+                <td><i>{{ strain(reference) }}</i> <span v-if="reference.code">{{ reference.code }}</span></td>
                 <td>{{ reference.reportName ? reference.reportName : 'Subida por el usuario' }}</td>
                 <td>
                     <button class="btn" @click="downloadReference(reference)">
@@ -32,7 +32,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['references'])
+        ...mapGetters(['references']),
+        strains() {
+            return this.$store.getters.strains
+        }
     },
     methods: {
         downloadReference(reference) {
@@ -41,6 +44,9 @@ export default {
                 .then(response => {
                     Utils.download(response, label, 'text/x-fasta')
                 })
+        },
+        strain(reference) {
+            return this.strains[reference.strain.$oid].name
         }
     },
     mounted() {
@@ -48,6 +54,7 @@ export default {
             .then(r => {
                 if (!r) this.$router.push('/login')
             })
+        this.$store.dispatch('getStrains')
     }
 }
 </script>

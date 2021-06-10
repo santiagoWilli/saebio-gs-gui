@@ -9,6 +9,7 @@
                 @mouseleave="hoveredTr = null"
                 :class="{ 'table-secondary cursor-pointer': hovered === getId(sequence) }"
             >
+                <td><i>{{ strain(sequence) }}</i> <span>{{ sequence.code }}</span></td>
                 <td>{{ originalName(sequence) }}</td>
                 <td>{{ date(sequence) }}</td>
                 <td>{{ sequence.trimmedPair ? 'Sí' : 'No' }}</td>
@@ -27,12 +28,15 @@ export default {
     components: {Table},
     data() {
         return {
-            headers: ['Nombre original', 'Fecha', 'Trimmed'],
+            headers: ['Cepa', 'Nombre original', 'Fecha', 'Trimmed'],
             hoveredTr: null
         }
     },
     computed: {
         ...mapGetters(['sequences']),
+        strains() {
+            return this.$store.getters.strains
+        },
         hovered() {
             return this.hoveredTr
         }
@@ -54,6 +58,9 @@ export default {
         date(sequence) {
             const date = new Date(sequence.sequenceDate)
             return date.toLocaleDateString();
+        },
+        strain(sequence) {
+            return this.strains[sequence.strain.$oid].name
         }
     },
     mounted() {
@@ -61,6 +68,7 @@ export default {
             .then(r => {
                 if (!r) this.$router.push('/login')
             })
+        this.$store.dispatch('getStrains')
     }
 }
 </script>

@@ -15,6 +15,8 @@ export const getSequenceTrimmedFiles = (id, token) => globalAxios.get(`${endpoin
 export const getReferences = (token) => globalAxios.get(`${endpoint}/references`, authorization(token))
 export const getReference = (id, token) => globalAxios.get(`${endpoint}/references/${id}`, authorization(token))
 
+export const getStrains = (token) => globalAxios.get(`${endpoint}/strains`, authorization(token))
+
 function objectToURLParams(object) {
     const params = new URLSearchParams()
     for (let key in object) params.append(key, object[key])
