@@ -60,7 +60,7 @@ export default {
             return date.toLocaleDateString();
         },
         strain(sequence) {
-            return this.strains[sequence.strain.$oid].name
+            return this.strains[sequence.strain.$oid] ? this.strains[sequence.strain.$oid].name : ""
         }
     },
     mounted() {

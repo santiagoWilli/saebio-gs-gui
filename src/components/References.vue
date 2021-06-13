@@ -46,7 +46,7 @@ export default {
                 })
         },
         strain(reference) {
-            return this.strains[reference.strain.$oid].name
+            return this.strains[reference.strain.$oid] ? this.strains[reference.strain.$oid].name : ""
         }
     },
     mounted() {
