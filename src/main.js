@@ -6,9 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCloudDownloadAlt, faEdit, faMinusSquare } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCloudDownloadAlt)
+library.add(faCloudDownloadAlt, faEdit, faMinusSquare)
 
 createApp(App)
     .use(router)

@@ -1,5 +1,5 @@
-import * as Api from '../api'
-import ErrorMessage from "@/api/ErrorMessage";
+import Api from "@/Api";
+import ErrorMessage from "@/ErrorMessage";
 
 export default {
     state: {

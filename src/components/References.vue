@@ -20,7 +20,7 @@
 <script>
 import Table from "@/components/Table";
 import {mapGetters} from "vuex";
-import * as Api from "@/api";
+import Api from "@/Api";
 import Utils from "@/Utils";
 
 export default {

@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import * as Api from '../api'
+import * as Api from '../Api'
 import Utils from "@/Utils";
 
 export default {

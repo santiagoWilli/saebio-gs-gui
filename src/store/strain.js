@@ -1,9 +1,12 @@
-import * as Api from '../api'
+import Api from "@/Api";
+import Utils from "@/Utils";
+import ErrorMessage from "@/ErrorMessage";
 
 export default {
     state: {
         strains: [],
-        indexedStrains: []
+        indexedStrains: [],
+        removeStrainError: null
     },
     getters: {
         strains(state) {
@@ -11,6 +14,9 @@ export default {
         },
         indexedStrains(state) {
             return state.indexedStrains
+        },
+        removeStrainError(state) {
+            return state.removeStrainError
         }
     },
     mutations: {
@@ -19,6 +25,12 @@ export default {
         },
         setIndexedStrains(state, payload) {
             state.indexedStrains = payload
+        },
+        removeStrain(state, strain) {
+            state.strains = state.strains.filter(e => e !== strain)
+        },
+        setRemoveStrainError(state, error) {
+            state.removeStrainError = error
         }
     },
     actions: {
@@ -37,6 +49,15 @@ export default {
                         delete Object.assign(strains, {[strains[i]._id.$oid]: strains[i] })[i];
                     }
                     commit('setIndexedStrains', strains)
+                })
+        },
+        deleteStrain({ commit }, strain) {
+            return Api.deleteStrain(Utils.getId(strain), this.getters.token)
+                .then(() => {
+                    commit('removeStrain', strain)
+                    commit('setRemoveStrainError', null)
+                }).catch(e => {
+                    commit('setRemoveStrainError', ErrorMessage.delete(e.response.status))
                 })
         }
     }
