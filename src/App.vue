@@ -6,7 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <router-link to="/sequences" class="nav-item nav-link active">Secuencias</router-link>
+                <router-link to="/sequences" class="nav-item nav-link">Secuencias</router-link>
                 <router-link to="/references" class="nav-item nav-link">Referencias</router-link>
                 <router-link to="/strains" class="nav-item nav-link">Cepas</router-link>
             </div>
@@ -68,5 +68,10 @@ export default {
 
 dd {
     margin-left: 0.75rem !important;
+}
+
+.router-link-active {
+    color: rgba(0,0,0,.9);
+    font-weight: 500;
 }
 </style>
