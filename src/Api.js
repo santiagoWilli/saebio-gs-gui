@@ -6,7 +6,7 @@ export default {
     login(user) {
         return globalAxios.post(`${endpoint}/login`, objectToURLParams(user), {
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
             },
         })
     },
@@ -37,12 +37,26 @@ export default {
 
     deleteStrain(id, token) {
         return globalAxios.delete(`${endpoint}/strains/${id}`, authorization(token))
+    },
+
+    createStrain(strain, token) {
+        return globalAxios.post(`${endpoint}/strains`, objectToURLParams(strain), {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+        })
     }
 }
 
 function objectToURLParams(object) {
     const params = new URLSearchParams()
-    for (let key in object) params.append(key, object[key])
+    for (let key in object) {
+        if (object[key] instanceof Array) {
+            for (let arKey in object[key]) params.append(key, object[key][arKey])
+        }
+        else params.append(key, object[key])
+    }
     return params
 }
 

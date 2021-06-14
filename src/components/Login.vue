@@ -9,7 +9,7 @@
                 <label for="password">Nombre de usuario</label>
                 <input type="password" class="form-control" id="password" v-model="user.password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Acceder</button>
         </form>
     </div>
     <div v-if="loginError" class="text-center text-danger">{{ loginError }}</div>

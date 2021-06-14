@@ -9,9 +9,15 @@ export default {
         return (code === 404) ? 'Recurso no encontrado' : `Error ${code}`
     },
 
-    delete(code) {
+    deleteStrain(code) {
         if (code === 404) return 'Cepa no encontrada'
         if (code === 409) return 'No puede eliminarse una cepa si hay recursos que apuntan a ella'
+        return `Error ${code}`
+    },
+
+    createStrain(code) {
+        if (code === 400) return 'Petición invalida'
+        if (code === 409) return 'Abreviación ya en uso'
         return `Error ${code}`
     }
 }

@@ -1,6 +1,15 @@
 <template>
     <div>
-        <div v-if="removeStrainError" class="text-center text-danger mb-4">{{ removeStrainError }}</div>
+        <div v-if="strainError" class="text-center text-danger mb-4">{{ strainError }}</div>
+        <button
+            class="btn btn-outline-dark mb-3"
+            @click.prevent="toggleCreateStrainForm"
+        >{{ showCreateStrainForm ? 'Ocultar' : 'Añadir' }}</button>
+
+        <div v-if="showCreateStrainForm" class="border-left my-3">
+            <strain-form />
+        </div>
+
         <Table :headers="headers">
             <tr
                 v-for="strain in strains"
@@ -25,23 +34,27 @@
 <script>
 import Table from "@/components/Table";
 import {mapGetters} from "vuex";
+import StrainForm from "@/components/StrainForm";
 
 export default {
     name: 'Strains',
-    components: {Table},
+    components: {StrainForm, Table},
     data() {
         return {
             headers: ['Nombre', 'Abreviaciones', 'Acciones'],
-            deleteError: null
+            showCreateStrainForm: false,
         }
     },
     computed: {
         ...mapGetters(['strains']),
-        ...mapGetters(['removeStrainError'])
+        ...mapGetters(['strainError'])
     },
     methods: {
         deleteStrain(strain) {
             this.$store.dispatch('deleteStrain', strain)
+        },
+        toggleCreateStrainForm() {
+            this.showCreateStrainForm = !this.showCreateStrainForm
         }
     },
     mounted() {
@@ -54,4 +67,8 @@ export default {
 </script>
 
 <style scoped>
+    .border-left {
+        border-left-style: solid;
+        border-left-width: 0.15rem;
+    }
 </style>

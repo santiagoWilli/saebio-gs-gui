@@ -6,7 +6,7 @@ export default {
     state: {
         strains: [],
         indexedStrains: [],
-        removeStrainError: null
+        strainError: null
     },
     getters: {
         strains(state) {
@@ -15,8 +15,8 @@ export default {
         indexedStrains(state) {
             return state.indexedStrains
         },
-        removeStrainError(state) {
-            return state.removeStrainError
+        strainError(state) {
+            return state.strainError
         }
     },
     mutations: {
@@ -29,8 +29,8 @@ export default {
         removeStrain(state, strain) {
             state.strains = state.strains.filter(e => e !== strain)
         },
-        setRemoveStrainError(state, error) {
-            state.removeStrainError = error
+        setStrainError(state, error) {
+            state.strainError = error
         }
     },
     actions: {
@@ -52,12 +52,21 @@ export default {
                 })
         },
         deleteStrain({ commit }, strain) {
-            return Api.deleteStrain(Utils.getId(strain), this.getters.token)
+            Api.deleteStrain(Utils.getId(strain), this.getters.token)
                 .then(() => {
                     commit('removeStrain', strain)
-                    commit('setRemoveStrainError', null)
+                    commit('setStrainError', null)
                 }).catch(e => {
-                    commit('setRemoveStrainError', ErrorMessage.delete(e.response.status))
+                    commit('setStrainError', ErrorMessage.deleteStrain(e.response.status))
+                })
+        },
+        createStrain({ commit }, strain) {
+            return Api.createStrain(strain, this.getters.token)
+                .then(() => {
+                    commit('setStrainError', null)
+                    Api.getStrains(this.getters.token).then(r => commit('setStrains', r.data))
+                }).catch(e => {
+                    commit('setStrainError', ErrorMessage.createStrain(e.response.status))
                 })
         }
     }
