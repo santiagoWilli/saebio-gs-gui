@@ -15,7 +15,7 @@ export default {
         return `Error ${code}`
     },
 
-    createStrain(code) {
+    createOrEditStrain(code) {
         if (code === 400) return 'Petición invalida'
         if (code === 409) return 'Abreviación ya en uso'
         return `Error ${code}`

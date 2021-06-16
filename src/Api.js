@@ -46,6 +46,18 @@ export default {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
             },
         })
+    },
+
+    editStrain(strain, token) {
+        const id = strain.id
+        delete strain['id']
+        console.log(objectToURLParams(strain).toString())
+        return globalAxios.patch(`${endpoint}/strains/${id}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            params: objectToURLParams(strain)
+        })
     }
 }
 

@@ -66,7 +66,17 @@ export default {
                     commit('setStrainError', null)
                     Api.getStrains(this.getters.token).then(r => commit('setStrains', r.data))
                 }).catch(e => {
-                    commit('setStrainError', ErrorMessage.createStrain(e.response.status))
+                    commit('setStrainError', ErrorMessage.createOrEditStrain(e.response.status))
+                })
+        },
+        editStrain({ commit }, strain) {
+            console.log(strain)
+            return Api.editStrain(strain, this.getters.token)
+                .then(() => {
+                    commit('setStrainError', null)
+                    Api.getStrains(this.getters.token).then(r => commit('setStrains', r.data))
+                }).catch(e => {
+                    commit('setStrainError', ErrorMessage.createOrEditStrain(e.response.status))
                 })
         }
     }
