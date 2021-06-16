@@ -51,7 +51,6 @@ export default {
     editStrain(strain, token) {
         const id = strain.id
         delete strain['id']
-        console.log(objectToURLParams(strain).toString())
         return globalAxios.patch(`${endpoint}/strains/${id}`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
