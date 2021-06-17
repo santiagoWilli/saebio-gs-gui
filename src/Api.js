@@ -31,6 +31,17 @@ export default {
         return globalAxios.get(`${endpoint}/references/${id}`, authorization(token))
     },
 
+    uploadReference(file, token) {
+        let formData = new FormData()
+        formData.append('file', file)
+        return globalAxios.post(`${endpoint}/references`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+
     getStrains(token) {
         return globalAxios.get(`${endpoint}/strains`, authorization(token))
     },

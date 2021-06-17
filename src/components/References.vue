@@ -1,5 +1,6 @@
 <template>
     <div>
+        <ReferenceUpload />
         <Table :headers="headers">
             <tr
                 v-for="(reference, index) in references"
@@ -22,10 +23,11 @@ import Table from "@/components/Table";
 import {mapGetters} from "vuex";
 import Api from "@/Api";
 import Utils from "@/Utils";
+import ReferenceUpload from "@/components/ReferenceUpload";
 
 export default {
     name: 'References',
-    components: {Table},
+    components: {ReferenceUpload, Table},
     data() {
         return {
             headers: ['Cepa', 'Generada tras el informe', 'Descargar'],

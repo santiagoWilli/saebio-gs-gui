@@ -70,7 +70,6 @@ export default {
                 })
         },
         editStrain({ commit }, strain) {
-            console.log(strain)
             return Api.editStrain(strain, this.getters.token)
                 .then(() => {
                     commit('setStrainError', null)
