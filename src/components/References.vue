@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         downloadReference(reference) {
-            const label = `${reference.strain.$oid}.fa`
+            const label = `${this.strainKey(reference)}${reference.code}.fa`
             Api.getReference(Utils.getId(reference), this.$store.getters.token)
                 .then(response => {
                     Utils.download(response, label, 'text/x-fasta')
@@ -49,6 +49,9 @@ export default {
         },
         strain(reference) {
             return this.strains[reference.strain.$oid] ? this.strains[reference.strain.$oid].name : ""
+        },
+        strainKey(reference) {
+            return this.strains[reference.strain.$oid] ? this.strains[reference.strain.$oid].keys[0] : ""
         }
     },
     mounted() {
