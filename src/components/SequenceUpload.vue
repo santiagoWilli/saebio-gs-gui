@@ -1,15 +1,16 @@
 <template>
     <div
-        v-if="uploadReferenceMessage"
+        v-if="uploadSequenceMessage"
         class="text-center mb-2"
-        :class="uploadReferenceError ? 'text-danger' : 'text-success'"
-    >{{ uploadReferenceMessage }}</div>
+        :class="uploadSequenceError ? 'text-danger' : 'text-success'"
+    >{{ uploadSequenceMessage }}</div>
     <input
         type="file"
         ref="fileInput"
+        multiple
         hidden
         @change="upload"
-        accept=".fa,.gbf">
+        accept=".gz">
     <button
         class="btn btn-outline-dark mb-3"
         @click.prevent="chooseFile"
@@ -20,19 +21,18 @@
 import { mapGetters } from 'vuex'
 
 export default {
-    name: "ReferenceUpload",
+    name: "SequenceUpload",
     methods: {
         chooseFile() {
             this.$refs.fileInput.click()
         },
         upload() {
-            if (this.$refs.fileInput.files.length < 1) return
-            this.$store.dispatch('uploadReference', this.$refs.fileInput.files[0])
+            this.$store.dispatch('uploadSequence', this.$refs.fileInput.files)
         }
     },
     computed: {
-        ...mapGetters(['uploadReferenceError']),
-        ...mapGetters(['uploadReferenceMessage']),
+        ...mapGetters(['uploadSequenceError']),
+        ...mapGetters(['uploadSequenceMessage']),
     }
 }
 </script>

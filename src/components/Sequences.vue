@@ -1,5 +1,6 @@
 <template>
     <div>
+        <SequenceUpload />
         <Table :headers="headers">
             <tr
                 v-for="sequence in sequences"
@@ -22,10 +23,11 @@
 import { mapGetters } from 'vuex'
 import Table from "@/components/Table";
 import Utils from "@/Utils";
+import SequenceUpload from "@/components/SequenceUpload";
 
 export default {
     name: 'Sequences',
-    components: {Table},
+    components: {SequenceUpload, Table},
     data() {
         return {
             headers: ['Cepa', 'Nombre original', 'Fecha', 'Trimmed'],

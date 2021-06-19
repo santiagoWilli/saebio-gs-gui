@@ -23,6 +23,18 @@ export default {
         return globalAxios.get(`${endpoint}/sequences/${id}/trimmed`, authorization(token))
     },
 
+    uploadSequence(files, token) {
+        let formData = new FormData()
+        formData.append('file1', files[0])
+        formData.append('file2', files[1])
+        return globalAxios.post(`${endpoint}/sequences`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+
     getReferences(token) {
         return globalAxios.get(`${endpoint}/references`, authorization(token))
     },

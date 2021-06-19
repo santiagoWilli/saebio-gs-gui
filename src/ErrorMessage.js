@@ -23,6 +23,7 @@ export default {
 
     upload(code) {
         if (code === 400) return 'Nombre del fichero no válido'
+        if (code === 409) return 'El recurso ya existe'
         return `Error ${code}`
     }
 }

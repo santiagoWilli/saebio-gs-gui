@@ -4,29 +4,29 @@ import ErrorMessage from "@/ErrorMessage";
 export default {
     state: {
         references: [],
-        uploadMessage: null,
-        uploadError: false,
+        uploadReferenceMessage: null,
+        uploadReferenceError: false
     },
     getters: {
         references(state) {
             return state.references
         },
-        uploadMessage(state) {
-            return state.uploadMessage
+        uploadReferenceMessage(state) {
+            return state.uploadReferenceMessage
         },
-        uploadError(state) {
-            return state.uploadError
+        uploadReferenceError(state) {
+            return state.uploadReferenceError
         }
     },
     mutations: {
         setReferences(state, payload) {
             state.references = payload
         },
-        setUploadMessage(state, payload) {
-            state.uploadMessage = payload
+        setUploadReferenceMessage(state, payload) {
+            state.uploadReferenceMessage = payload
         },
-        setUploadError(state, payload) {
-            state.uploadError = payload
+        setUploadReferenceError(state, payload) {
+            state.uploadReferenceError = payload
         }
     },
     actions: {
@@ -41,13 +41,13 @@ export default {
         uploadReference({ commit }, reference) {
             Api.uploadReference(reference, this.getters.token)
                 .then(() => {
-                    commit('setUploadError', false)
-                    commit('setUploadMessage', 'Referencia subida con éxito')
+                    commit('setUploadReferenceError', false)
+                    commit('setUploadReferenceMessage', 'Referencia subida con éxito')
                     Api.getReferences(this.getters.token).then(r => commit('setReferences', r.data))
                 })
                 .catch((e) => {
-                    commit('setUploadError', true)
-                    commit('setUploadMessage', ErrorMessage.upload(e.response.status))
+                    commit('setUploadReferenceError', true)
+                    commit('setUploadReferenceMessage', ErrorMessage.upload(e.response.status))
                 })
         }
     }
