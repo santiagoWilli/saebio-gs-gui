@@ -27,7 +27,11 @@ export default {
             this.$refs.fileInput.click()
         },
         upload() {
+            document.getElementById('app').classList.add('cursor-progress')
             this.$store.dispatch('uploadSequence', this.$refs.fileInput.files)
+                .then(() => {
+                    document.getElementById('app').classList.remove('cursor-progress')
+                })
         }
     },
     computed: {
@@ -38,4 +42,7 @@ export default {
 </script>
 
 <style scoped>
+.cursor-progress {
+    cursor: progress !important;
+}
 </style>

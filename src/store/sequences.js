@@ -66,7 +66,7 @@ export default {
                 commit('setUploadSequenceMessage', 'Debes seleccionar dos archivos que conformen una secuencia')
                 commit('setUploadSequenceError', true)
             } else {
-                Api.uploadSequence(sequence, this.getters.token)
+                return Api.uploadSequence(sequence, this.getters.token)
                     .then(() => {
                         commit('setUploadSequenceMessage', sequence[0].name.includes('trimmed') ? 'Secuencia subida con éxito' : 'Trimmed solicitado para la secuencia')
                         commit('setUploadSequenceError', false)
