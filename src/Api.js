@@ -20,7 +20,7 @@ export default {
     },
 
     getSequenceTrimmedFiles(id, token) {
-        return globalAxios.get(`${endpoint}/sequences/${id}/trimmed`, authorization(token))
+        return globalAxios.get(`${endpoint}/sequences/${id}/trimmed`, downloadAuthorization(token))
     },
 
     uploadSequence(files, token) {
@@ -40,7 +40,7 @@ export default {
     },
 
     getReference(id, token) {
-        return globalAxios.get(`${endpoint}/references/${id}`, authorization(token))
+        return globalAxios.get(`${endpoint}/references/${id}`, downloadAuthorization(token))
     },
 
     uploadReference(file, token) {
@@ -99,5 +99,14 @@ function authorization(token) {
         headers: {
             'Authorization': `Bearer ${token}`
         }
+    }
+}
+
+function downloadAuthorization(token) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        responseType: 'blob'
     }
 }

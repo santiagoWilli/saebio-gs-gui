@@ -44,7 +44,7 @@ export default {
             const label = `${this.strainKey(reference)}${reference.code}.fa`
             Api.getReference(Utils.getId(reference), this.$store.getters.token)
                 .then(response => {
-                    Utils.download(response, label, 'text/x-fasta')
+                    Utils.download(response, label)
                 })
         },
         strain(reference) {

@@ -59,7 +59,7 @@ export default {
             const label = `${this.sequence.originalFilenames[0].split('_')[0]}.zip`
             Api.getSequenceTrimmedFiles(this.sequence._id.$oid, this.$store.getters.token)
                 .then(response => {
-                    Utils.download(response, label, 'application/zip')
+                    Utils.download(response, label)
                 }).catch(e => {
                     vm.error = e.response.status
                 }).finally(() => {
