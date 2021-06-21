@@ -6,6 +6,7 @@ import Sequences from "@/components/Sequences";
 import References from "@/components/References";
 import Sequence from "@/components/Sequence";
 import Strains from "@/components/Strains";
+import Reports from "@/components/Reports";
 
 const routes = [
     { path: '/', component: Home },
@@ -14,6 +15,7 @@ const routes = [
     { path: '/sequences/:id', component: Sequence, name: 'Sequence' },
     { path: '/references', component: References },
     { path: '/strains', component: Strains },
+    { path: '/reports', component: Reports },
 ];
 
 const router = createRouter({

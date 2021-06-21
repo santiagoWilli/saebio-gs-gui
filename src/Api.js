@@ -80,7 +80,19 @@ export default {
             },
             params: objectToURLParams(strain)
         })
-    }
+    },
+
+    getReports(token) {
+        return globalAxios.get(`${endpoint}/reports`, authorization(token))
+    },
+
+    getReportFile(id, token) {
+        return globalAxios.get(`${endpoint}/reports/${id}/file`, downloadAuthorization(token))
+    },
+
+    getReportLog(id, token) {
+        return globalAxios.get(`${endpoint}/reports/${id}/log`, downloadAuthorization(token))
+    },
 }
 
 function objectToURLParams(object) {
