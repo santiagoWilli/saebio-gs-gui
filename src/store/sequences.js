@@ -52,6 +52,13 @@ export default {
                 })
                 .catch(() => false)
         },
+        getSequencesWithStrain({ commit }, strainId) {
+            if (strainId == null) commit('setSequences', [])
+            Api.getSequencesWithStrain(strainId, this.getters.token)
+                .then(response => {
+                    commit('setSequences', response.data)
+                })
+        },
         getSequence({ commit }, id) {
             Api.getSequence(id, this.getters.token)
                 .then(response => {

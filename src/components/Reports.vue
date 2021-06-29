@@ -1,11 +1,13 @@
 <template>
     <div>
+        <router-link to="/reports/new" class="btn btn-outline-dark mb-3" href="">Nuevo</router-link>
         <Table :headers="headers">
             <tr
                 v-for="(report, index) in reports"
                 :key="index"
             >
                 <td><i>{{ strain(report) }}</i></td>
+                <td>{{ report._id.$oid }}</td>
                 <td>{{ report.requestDate }}</td>
                 <template v-if="report.files">
                     <td>Finalizado</td>
@@ -44,7 +46,7 @@ export default {
     components: {Table},
     data() {
         return {
-            headers: ['Cepa', 'Fecha', 'Estado', 'Descargar'],
+            headers: ['Género y especie', 'ID', 'Fecha', 'Estado', 'Descargar'],
         }
     },
     computed: {

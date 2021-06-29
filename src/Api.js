@@ -15,6 +15,15 @@ export default {
         return globalAxios.get(`${endpoint}/sequences`, authorization(token))
     },
 
+    getSequencesWithStrain(strainId, token) {
+        return globalAxios.get(`${endpoint}/sequences`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            params: objectToURLParams({strain: strainId})
+        })
+    },
+
     getSequence(id, token) {
         return globalAxios.get(`${endpoint}/sequences/${id}`, authorization(token))
     },
@@ -37,6 +46,15 @@ export default {
 
     getReferences(token) {
         return globalAxios.get(`${endpoint}/references`, authorization(token))
+    },
+
+    getReferencesWithStrain(strainId, token) {
+        return globalAxios.get(`${endpoint}/references`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            params: objectToURLParams({strain: strainId})
+        })
     },
 
     getReference(id, token) {
@@ -93,6 +111,15 @@ export default {
     getReportLog(id, token) {
         return globalAxios.get(`${endpoint}/reports/${id}/log`, downloadAuthorization(token))
     },
+
+    requestAnalysis(reference, sequences, token) {
+        return globalAxios.post(`${endpoint}/reports`, objectToURLParams({ reference, sequences }), {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+        })
+    }
 }
 
 function objectToURLParams(object) {

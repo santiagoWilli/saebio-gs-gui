@@ -38,6 +38,13 @@ export default {
                 })
                 .catch(() => false)
         },
+        getReferencesWithStrain({ commit }, strainId) {
+            if (strainId == null) commit('setReferences', [])
+            Api.getReferencesWithStrain(strainId, this.getters.token)
+                .then(response => {
+                    commit('setReferences', response.data)
+                })
+        },
         uploadReference({ commit }, reference) {
             Api.uploadReference(reference, this.getters.token)
                 .then(() => {
