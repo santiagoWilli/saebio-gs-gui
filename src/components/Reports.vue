@@ -1,7 +1,22 @@
 <template>
     <div>
-        <router-link to="/reports/new" class="btn btn-outline-dark mb-3" href="">Nuevo</router-link>
-        <input type="text" placeholder="Buscar ID..." id="search" v-model="search">
+        <div class="d-flex justify-content-between">
+            <router-link to="/reports/new" class="btn btn-outline-dark mb-3" href="">Nuevo</router-link>
+            <div>
+                <div class="d-inline-block mx-1">
+                    <label for="strain">Género y especie</label>
+                    <select id="strain" v-model="strainId" class="mx-1">
+                        <option :value="null">Todas</option>
+                        <option
+                            v-for="strain in strains"
+                            :key="strain._id.$oid"
+                            :value="strain._id.$oid"
+                        >{{ strain.name }}</option>
+                    </select>
+                </div>
+                <input type="text" placeholder="Buscar ID..." id="search" v-model="search">
+            </div>
+        </div>
         <Table :headers="headers">
             <tr
                 v-for="(report, index) in reports"
@@ -37,6 +52,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Table from "@/components/Table";
 import Api from "@/Api";
 import Utils from "@/Utils";
@@ -47,15 +63,22 @@ export default {
     data() {
         return {
             headers: ['Género y especie', 'ID', 'Fecha', 'Estado', 'Descargar'],
-            search: ''
+            search: '',
+            strainId: null
         }
     },
     computed: {
         reports() {
-            if (this.search.trim().length === 0) return this.$store.getters.reports
+            if (this.search.trim().length === 0) {
+                if (this.strainId == null) return this.$store.getters.reports
+                return this.$store.getters.reports.filter(r => r.strain.$oid === this.strainId)
+            }
+            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            this.strainId = null
             return this.$store.getters.reports.filter(r => r._id.$oid.includes(this.search.trim()))
         },
-        strains() {
+        ...mapGetters(['strains']),
+        indexedStrains() {
             return this.$store.getters.indexedStrains
         }
     },
@@ -75,7 +98,7 @@ export default {
                 })
         },
         strain(report) {
-            return this.strains[report.strain.$oid] ? this.strains[report.strain.$oid].name : ""
+            return this.indexedStrains[report.strain.$oid] ? this.indexedStrains[report.strain.$oid].name : ""
         }
     },
     mounted() {
@@ -84,12 +107,13 @@ export default {
                 if (!r) this.$router.push('/login')
             })
         this.$store.dispatch('getIndexedStrains')
+        this.$store.dispatch('getStrains')
     }
 }
 </script>
 
 <style scoped>
-#search {
+#search, #strain {
     float: right;
 }
 </style>

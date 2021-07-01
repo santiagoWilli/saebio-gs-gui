@@ -1,6 +1,19 @@
 <template>
     <div>
-        <ReferenceUpload />
+        <div class="d-flex justify-content-between">
+            <ReferenceUpload />
+            <div>
+                <label for="strain">Género y especie</label>
+                <select id="strain" v-model="strainId" class="mx-1">
+                    <option :value="null">Todas</option>
+                    <option
+                        v-for="strain in strainsFilter"
+                        :key="strain._id.$oid"
+                        :value="strain._id.$oid"
+                    >{{ strain.name }}</option>
+                </select>
+            </div>
+        </div>
         <Table :headers="headers">
             <tr
                 v-for="(reference, index) in references"
@@ -20,7 +33,6 @@
 
 <script>
 import Table from "@/components/Table";
-import {mapGetters} from "vuex";
 import Api from "@/Api";
 import Utils from "@/Utils";
 import ReferenceUpload from "@/components/ReferenceUpload";
@@ -31,12 +43,19 @@ export default {
     data() {
         return {
             headers: ['Cepa', 'Generada tras el informe', 'Descargar'],
+            strainId: null
         }
     },
     computed: {
-        ...mapGetters(['references']),
+        references() {
+            if (this.strainId == null) return this.$store.getters.references
+            return this.$store.getters.references.filter(s => s.strain.$oid === this.strainId)
+        },
         strains() {
             return this.$store.getters.indexedStrains
+        },
+        strainsFilter() {
+            return this.$store.getters.strains
         }
     },
     methods: {
@@ -60,6 +79,7 @@ export default {
                 if (!r) this.$router.push('/login')
             })
         this.$store.dispatch('getIndexedStrains')
+        this.$store.dispatch('getStrains')
     }
 }
 </script>

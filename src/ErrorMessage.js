@@ -10,14 +10,14 @@ export default {
     },
 
     deleteStrain(code) {
-        if (code === 404) return 'Cepa no encontrada'
-        if (code === 409) return 'No puede eliminarse una cepa si hay recursos que apuntan a ella'
+        if (code === 404) return 'Género y especie no encontrados'
+        if (code === 409) return 'No puede eliminarse un género y especie si hay recursos que apuntan al conjunto'
         return `Error ${code}`
     },
 
     createOrEditStrain(code) {
         if (code === 400) return 'Petición invalida'
-        if (code === 409) return 'Abreviación ya en uso'
+        if (code === 409) return 'Nombre o abreviación ya en uso'
         return `Error ${code}`
     },
 

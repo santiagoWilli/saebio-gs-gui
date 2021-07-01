@@ -1,6 +1,19 @@
 <template>
     <div>
-        <SequenceUpload />
+        <div class="d-flex justify-content-between">
+            <SequenceUpload />
+            <div>
+                <label for="strain">Género y especie</label>
+                <select id="strain" v-model="strainId" class="mx-1">
+                    <option :value="null">Todas</option>
+                    <option
+                        v-for="strain in strainsFilter"
+                        :key="strain._id.$oid"
+                        :value="strain._id.$oid"
+                    >{{ strain.name }}</option>
+                </select>
+            </div>
+        </div>
         <Table :headers="headers">
             <tr
                 v-for="sequence in sequences"
@@ -20,7 +33,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Table from "@/components/Table";
 import Utils from "@/Utils";
 import SequenceUpload from "@/components/SequenceUpload";
@@ -31,13 +43,20 @@ export default {
     data() {
         return {
             headers: ['Cepa', 'Nombre original', 'Fecha', 'Trimmed'],
-            hoveredTr: null
+            hoveredTr: null,
+            strainId: null
         }
     },
     computed: {
-        ...mapGetters(['sequences']),
+        sequences() {
+            if (this.strainId == null) return this.$store.getters.sequences
+            return this.$store.getters.sequences.filter(s => s.strain.$oid === this.strainId)
+        },
         strains() {
             return this.$store.getters.indexedStrains
+        },
+        strainsFilter() {
+            return this.$store.getters.strains
         },
         hovered() {
             return this.hoveredTr
@@ -71,6 +90,7 @@ export default {
                 if (!r) this.$router.push('/login')
             })
         this.$store.dispatch('getIndexedStrains')
+        this.$store.dispatch('getStrains')
     }
 }
 </script>
