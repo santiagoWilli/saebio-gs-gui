@@ -1,6 +1,7 @@
 <template>
     <div>
         <router-link to="/reports/new" class="btn btn-outline-dark mb-3" href="">Nuevo</router-link>
+        <input type="text" placeholder="Buscar ID..." id="search" v-model="search">
         <Table :headers="headers">
             <tr
                 v-for="(report, index) in reports"
@@ -37,7 +38,6 @@
 
 <script>
 import Table from "@/components/Table";
-import {mapGetters} from "vuex";
 import Api from "@/Api";
 import Utils from "@/Utils";
 
@@ -47,10 +47,14 @@ export default {
     data() {
         return {
             headers: ['Género y especie', 'ID', 'Fecha', 'Estado', 'Descargar'],
+            search: ''
         }
     },
     computed: {
-        ...mapGetters(['reports']),
+        reports() {
+            if (this.search.trim().length === 0) return this.$store.getters.reports
+            return this.$store.getters.reports.filter(r => r._id.$oid.includes(this.search.trim()))
+        },
         strains() {
             return this.$store.getters.indexedStrains
         }
@@ -85,4 +89,7 @@ export default {
 </script>
 
 <style scoped>
+#search {
+    float: right;
+}
 </style>
