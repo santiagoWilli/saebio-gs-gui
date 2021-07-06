@@ -8,7 +8,7 @@
             <div class="navbar-nav">
                 <router-link to="/sequences" class="nav-item nav-link">Secuencias</router-link>
                 <router-link to="/references" class="nav-item nav-link">Referencias</router-link>
-                <router-link to="/strains" class="nav-item nav-link">Cepas</router-link>
+                <router-link to="/strains" class="nav-item nav-link">Definiciones</router-link>
                 <router-link to="/reports" class="nav-item nav-link">Informes</router-link>
             </div>
             <div id="navbar-logout">
