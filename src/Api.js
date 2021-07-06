@@ -104,6 +104,10 @@ export default {
         return globalAxios.get(`${endpoint}/reports`, authorization(token))
     },
 
+    getReport(id, token) {
+        return globalAxios.get(`${endpoint}/reports/${id}`, authorization(token))
+    },
+
     getReportFile(id, token) {
         return globalAxios.get(`${endpoint}/reports/${id}/file`, downloadAuthorization(token))
     },

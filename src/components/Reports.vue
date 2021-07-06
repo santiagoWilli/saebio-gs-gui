@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-flex justify-content-between">
-            <router-link to="/reports/new" class="btn btn-outline-dark mb-3" href="">Nuevo</router-link>
+            <router-link to="/report/new" class="btn btn-outline-dark mb-3" href="">Nuevo</router-link>
             <div>
                 <div class="d-inline-block mx-1">
                     <label for="strain">Género y especie</label>
@@ -28,9 +28,9 @@
                 <template v-if="report.files">
                     <td>Finalizado</td>
                     <td>
-                        <button class="btn" @click="downloadReport(report)">
+                        <router-link :to="`/reports/${report._id.$oid}`" class="btn">
                             <font-awesome-icon icon="cloud-download-alt" />
-                        </button>
+                        </router-link>
                     </td>
                 </template>
                 <template v-else-if="report.files == null">
@@ -83,13 +83,6 @@ export default {
         }
     },
     methods: {
-        downloadReport(report) {
-            const label = `${report.name}.html`
-            Api.getReportFile(Utils.getId(report), this.$store.getters.token)
-                .then(response => {
-                    Utils.download(response, label)
-                })
-        },
         downloadReportLog(report) {
             const label = `${report.name}.log`
             Api.getReportLog(Utils.getId(report), this.$store.getters.token)

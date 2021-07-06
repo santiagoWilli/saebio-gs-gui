@@ -29,7 +29,7 @@ import Api from '../Api'
 import Utils from "@/Utils";
 
 export default {
-    name: 'References',
+    name: 'Sequence',
     data: () => ({
         error: null,
         downloadInProgress: false
