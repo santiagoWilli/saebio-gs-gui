@@ -1,9 +1,4 @@
 <template>
-    <div
-        v-if="uploadSequenceMessage"
-        class="text-center mb-2"
-        :class="uploadSequenceError ? 'text-danger' : 'text-success'"
-    >{{ uploadSequenceMessage }}</div>
     <input
         type="file"
         ref="fileInput"
@@ -18,8 +13,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     name: "SequenceUpload",
     methods: {
@@ -33,10 +26,6 @@ export default {
                     document.getElementById('app').classList.remove('cursor-progress')
                 })
         }
-    },
-    computed: {
-        ...mapGetters(['uploadSequenceError']),
-        ...mapGetters(['uploadSequenceMessage']),
     }
 }
 </script>

@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div
+            v-if="uploadReferenceMessage"
+            class="text-center mb-2"
+            :class="uploadReferenceError ? 'text-danger' : 'text-success'"
+        >{{ uploadReferenceMessage }}</div>
         <div class="d-flex justify-content-between">
             <ReferenceUpload />
             <div>
@@ -36,6 +41,7 @@ import Table from "@/components/Table";
 import Api from "@/Api";
 import Utils from "@/Utils";
 import ReferenceUpload from "@/components/ReferenceUpload";
+import {mapGetters} from "vuex";
 
 export default {
     name: 'References',
@@ -56,7 +62,9 @@ export default {
         },
         strainsFilter() {
             return this.$store.getters.strains
-        }
+        },
+        ...mapGetters(['uploadReferenceError']),
+        ...mapGetters(['uploadReferenceMessage'])
     },
     methods: {
         downloadReference(reference) {

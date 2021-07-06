@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div
+            v-if="uploadSequenceMessage"
+            class="text-center mb-2"
+            :class="uploadSequenceError ? 'text-danger' : 'text-success'"
+        >{{ uploadSequenceMessage }}</div>
         <div class="d-flex justify-content-between">
             <SequenceUpload />
             <div>
@@ -36,6 +41,7 @@
 import Table from "@/components/Table";
 import Utils from "@/Utils";
 import SequenceUpload from "@/components/SequenceUpload";
+import {mapGetters} from "vuex";
 
 export default {
     name: 'Sequences',
@@ -60,7 +66,9 @@ export default {
         },
         hovered() {
             return this.hoveredTr
-        }
+        },
+        ...mapGetters(['uploadSequenceError']),
+        ...mapGetters(['uploadSequenceMessage'])
     },
     methods: {
         originalName(sequence) {

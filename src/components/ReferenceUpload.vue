@@ -1,9 +1,4 @@
 <template>
-    <div
-        v-if="uploadReferenceMessage"
-        class="text-center mb-2"
-        :class="uploadReferenceError ? 'text-danger' : 'text-success'"
-    >{{ uploadReferenceMessage }}</div>
     <input
         type="file"
         ref="fileInput"
@@ -17,7 +12,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
     name: "ReferenceUpload",
@@ -30,10 +24,6 @@ export default {
             this.$store.dispatch('uploadReference', this.$refs.fileInput.files[0])
         }
     },
-    computed: {
-        ...mapGetters(['uploadReferenceError']),
-        ...mapGetters(['uploadReferenceMessage']),
-    }
 }
 </script>
 
