@@ -29,7 +29,7 @@
                     <td>Finalizado</td>
                     <td>
                         <router-link :to="`/reports/${report._id.$oid}`" class="btn">
-                            <font-awesome-icon icon="cloud-download-alt" />
+                            <font-awesome-icon icon="eye" />
                         </router-link>
                     </td>
                 </template>
@@ -62,7 +62,7 @@ export default {
     components: {Table},
     data() {
         return {
-            headers: ['Género y especie', 'ID', 'Fecha', 'Estado', 'Descargar'],
+            headers: ['Género y especie', 'ID', 'Fecha', 'Estado', ''],
             search: '',
             strainId: null
         }
