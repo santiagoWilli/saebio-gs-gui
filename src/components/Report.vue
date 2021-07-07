@@ -4,7 +4,7 @@
             <font-awesome-icon icon="cloud-download-alt" /> Descargar
         </button>
     </div>
-    <iframe id="iframe" ref="iframe" class="w-100 h-100"></iframe>
+    <div id="iframe" ref="iframe" class="w-100 h-100"></div>
 </template>
 
 <script>
@@ -27,25 +27,30 @@ export default {
                 .then(response => {
                     document.getElementById('content').style.height = '100vh'
                     vm.reportFile = response
-                    vm.$refs.iframe.src = URL.createObjectURL(response.data)
+                    vm.$refs.iframe.innerHTML = response.data.replace(/<link href="https:\/\/maxcdn\.bootstrapcdn\.com\/bootstrap\/.*" rel="stylesheet">/, '')
 
-                    vm.$refs.iframe.addEventListener("load", function() {
-                        console.log(document.getElementById('iframe').contentWindow.document)
-                        vm.$refs.iframe.contentWindow.document.getElementsByTagName('h1')[0].innerText = vm.report.name
-                        let cells = vm.$refs.iframe.contentWindow.document.getElementById('jobinfo').getElementsByTagName('td')
-                        cells[cells.length - 1].innerText = window.location.href // Nullarbor folder path replaced
-                        vm.$refs.iframe.style.display = 'initial' // show iframe
-                    })
+                    vm.$refs.iframe.getElementsByTagName('h1')[0].innerText = vm.report.name // Nullarbor header replaced
+                    let cells = document.getElementById('jobinfo').getElementsByTagName('td')
+                    cells[cells.length - 1].innerText = window.location.href // Nullarbor folder path replaced
+
+                    vm.$refs.iframe.style.display = 'initial' // display report
                 })
         }
     },
     mounted() {
         const vm = this
-        Api.getReport(this.$route.params.id, this.$store.getters.token).then(response => {
-            vm.report = response.data
-            vm.$refs.iframe.style.display = 'none'
-            vm.getReportHTML()
-        })
+        Api.getReport(this.$route.params.id, this.$store.getters.token)
+            .then(response => {
+                vm.report = response.data
+                vm.$refs.iframe.style.display = 'none'
+                vm.getReportHTML()
+            })
+            .catch(e => {
+                if (e.response.status === 401) {
+                    this.$store.dispatch('logout')
+                    this.$router.push('/login')
+                }
+            })
     },
     unmounted() {
         document.getElementById('content').style.height = 'inherit'
