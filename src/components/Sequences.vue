@@ -95,7 +95,10 @@ export default {
     mounted() {
         this.$store.dispatch('getSequences')
             .then(r => {
-                if (!r) this.$router.push('/login')
+                if (!r) {
+                    this.$store.dispatch('logout')
+                    this.$router.push('/login')
+                }
             })
         this.$store.dispatch('getIndexedStrains')
         this.$store.dispatch('getStrains')

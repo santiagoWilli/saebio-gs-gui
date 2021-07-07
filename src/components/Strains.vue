@@ -83,7 +83,10 @@ export default {
     mounted() {
         this.$store.dispatch('getStrains')
             .then(r => {
-                if (!r) this.$router.push('/login')
+                if (!r) {
+                    this.$store.dispatch('logout')
+                    this.$router.push('/login')
+                }
             })
     }
 }
