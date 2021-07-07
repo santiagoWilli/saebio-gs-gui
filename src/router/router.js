@@ -8,6 +8,7 @@ import Sequence from "@/components/Sequence";
 import Strains from "@/components/Strains";
 import Reports from "@/components/Reports";
 import Report from "@/components/Report";
+import ReportFileDownload from "@/components/ReportFileDownload";
 import ReportForm from "@/components/ReportForm";
 
 const routes = [
@@ -19,6 +20,7 @@ const routes = [
     { path: '/strains', component: Strains },
     { path: '/reports', component: Reports },
     { path: '/reports/:id', component: Report },
+    { path: '/reports/:id/:file', component: ReportFileDownload },
     { path: '/report/new', component: ReportForm },
 ];
 

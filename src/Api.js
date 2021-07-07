@@ -108,12 +108,16 @@ export default {
         return globalAxios.get(`${endpoint}/reports/${id}`, authorization(token))
     },
 
-    getReportFile(id, token) {
-        return globalAxios.get(`${endpoint}/reports/${id}/file`, downloadAuthorization(token))
+    getReportHTML(id, token) {
+        return globalAxios.get(`${endpoint}/reports/${id}/report`, authorization(token))
     },
 
     getReportLog(id, token) {
         return globalAxios.get(`${endpoint}/reports/${id}/log`, downloadAuthorization(token))
+    },
+
+    getReportFile(id, filename, token) {
+        return globalAxios.get(`${endpoint}/reports/${id}/${filename.replace('.', '')}`, downloadAuthorization(token))
     },
 
     requestAnalysis(reference, sequences, token) {
