@@ -109,7 +109,7 @@ export default {
     },
 
     getReportHTML(id, token) {
-        return globalAxios.get(`${endpoint}/reports/${id}/report`, authorization(token))
+        return globalAxios.get(`${endpoint}/reports/${id}/report`, downloadAuthorization(token))
     },
 
     getReportLog(id, token) {
