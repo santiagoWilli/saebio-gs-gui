@@ -2,7 +2,9 @@
     <div class="w-100 h-100">
         <div v-if="error" class="text-danger text-center">{{ error }}</div>
         <template v-else>
-            <div v-if="reportFile == null"></div>
+            <div id="loader" v-if="reportFile == null">
+                <clip-loader :loading="reportFile == null" size="15vh"></clip-loader>
+            </div>
             <div v-else>
                 <button class="btn btn-outline-dark mb-4 d-block" @click="downloadReport()">
                     <font-awesome-icon icon="cloud-download-alt" /> Descargar
@@ -65,6 +67,14 @@ export default {
                         vm.$refs.iframe.style.display = 'initial'
                     })
                 })
+                .catch(e => {
+                    if (e.response.status === 401) {
+                        vm.$store.dispatch('logout')
+                        vm.$router.push('/login')
+                    } else {
+                        vm.error = 'El informe no se pudo cargar.'
+                    }
+                })
         },
         replaceLinks(html) {
             this.filenames.forEach(name => {
@@ -88,10 +98,10 @@ export default {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    this.$store.dispatch('logout')
-                    this.$router.push('/login')
+                    vm.$store.dispatch('logout')
+                    vm.$router.push('/login')
                 } else {
-                    this.error = ErrorMessage.getResource(e.response.status)
+                    vm.error = ErrorMessage.getResource(e.response.status)
                 }
             })
     },
@@ -105,5 +115,13 @@ export default {
 #download-files {
     max-width: 100%;
     overflow: scroll;
+}
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 </style>
