@@ -28,6 +28,8 @@ export default {
                     document.getElementById('content').style.height = '100vh'
                     vm.reportFile = response
                     vm.$refs.iframe.innerHTML = response.data
+                        .replace(/<link href="https:\/\/maxcdn\.bootstrapcdn\.com\/bootstrap\/.*" rel="stylesheet">/, '')
+                        .replace('<link href="nullarbor.css" rel="stylesheet">', '')
 
                     vm.$refs.iframe.getElementsByTagName('h1')[0].innerText = vm.report.name // Nullarbor header replaced
                     let cells = document.getElementById('jobinfo').getElementsByTagName('td')
@@ -77,3 +79,133 @@ export default {
     }
 }
 </script>
+
+<style>
+#pan SVG {
+    width: 100%;
+    height: auto;
+    font-family: sans-serif;
+}
+
+#iframe H1 {
+    text-align: center;
+}
+
+.nullarbor-section {
+    margin-top: 4ex;
+    width: auto;
+}
+
+#iframe A.jump-home {
+    font-size: smaller;
+}
+
+#iframe TT {
+    font-size: smaller;
+}
+
+/*
+TD:first-child {
+  font-family: monospace;
+  font-size: smaller;
+}
+*/
+
+#iframe TABLE {
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-sizing: content-box;
+    border-bottom: 1px solid #111;
+    font-size: 14px;
+}
+
+#iframe A.file-download {
+    font-family: monospace;
+    padding-left: 1ex;
+    background: lightgray;
+    border: 1pt dotted gray;
+}
+
+#iframe UL.pagination {
+    font-size: smaller;
+}
+
+#iframe TH {
+    background: LightGrey;
+    color: Black;
+}
+
+#iframe TH, #iframe TD {
+    text-align: center !important;
+}
+
+#iframe td {
+    border-top: 1px solid #ddd !important;
+}
+
+/* for vertical TH elements */
+#iframe DIV.vertical {
+    white-space: nowrap;
+    /* try different ways to make it vertical */
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: tb-rl;
+    writing-mode: vertical-rl;
+    filter: flipv fliph;
+    /* make it centered */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#iframe .binomial {
+    text-align: left;
+    font-family: serif;
+    font-style: italic;
+}
+
+.traffic-light {
+    font-size: larger;
+    font-weight: bold;
+}
+
+#iframe .pass {
+    color: green;
+}
+
+#iframe .fail {
+    color: red;
+}
+
+#iframe .dunno {
+    color: orange;
+}
+
+#iframe .dunno:hover {
+    cursor: help;
+}
+
+#iframe .allele {
+    font-style: italic;
+}
+
+#iframe .missing {
+    color: red;
+    font-weight: bold;
+}
+
+#iframe .novel {
+    color: orange;
+}
+
+#iframe SPAN.legend {
+    font-size: none;
+    border: none;
+    padding: 1ex;
+}
+
+#iframe SPAN.legend-item {
+    padding-left: 3ex;
+}
+</style>
