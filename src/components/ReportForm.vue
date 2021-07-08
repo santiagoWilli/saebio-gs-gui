@@ -95,6 +95,7 @@ export default {
         this.$store.dispatch('getIndexedStrains')
         this.$store.dispatch('getSequencesWithStrain', null)
         this.$store.dispatch('getReferencesWithStrain', null)
+        this.$refs.strain.value = 0
     }
 }
 </script>
