@@ -4,14 +4,12 @@
         <dl>
             <dt>Cepa</dt>
             <dd><i>{{ sequence.strain.name }}</i> {{ sequence.code }}</dd>
-            <dt>Fecha de la secuencia</dt>
-            <dd>{{ date(sequence.sequenceDate) }}</dd>
             <dt>Nombre de los ficheros subidos</dt>
             <dd>{{ sequence.originalFilenames.join(', ') }}</dd>
-            <div v-if="sequence.genomeToolToken">
-                <dt>Fecha de solicitud del trimming</dt>
-                <dd>{{ date(sequence.trimRequestDate) }}</dd>
-            </div>
+            <dt>Fecha de la secuencia</dt>
+            <dd>{{ date(sequence.sequenceDate) }}</dd>
+            <dt>Fecha de subida</dt>
+            <dd>{{ date(sequence.uploadDate) }}</dd>
             <dt>Archivos trimmeados</dt>
             <dd v-if="sequence.trimmedPair === false">Se produjo un error en el proceso del trimming</dd>
             <dd v-else-if="sequence.trimmedPair" class="m-0">

@@ -31,6 +31,7 @@
                 <td><i>{{ strain(sequence) }}</i> <span>{{ sequence.code }}</span></td>
                 <td>{{ originalName(sequence) }}</td>
                 <td>{{ date(sequence) }}</td>
+                <td>{{ uploadDate(sequence) }}</td>
                 <td>{{ sequence.trimmedPair ? 'Sí' : 'No' }}</td>
             </tr>
         </Table>
@@ -48,7 +49,7 @@ export default {
     components: {SequenceUpload, Table},
     data() {
         return {
-            headers: ['Cepa', 'Nombre original', 'Fecha', 'Trimmed'],
+            headers: ['Cepa', 'Nombre original', 'Fecha de la secuencia', 'Fecha de subida', 'Trimmed'],
             hoveredTr: null,
             strainId: null
         }
@@ -86,6 +87,10 @@ export default {
         },
         date(sequence) {
             const date = new Date(sequence.sequenceDate)
+            return date.toLocaleDateString();
+        },
+        uploadDate(sequence) {
+            const date = new Date(sequence.uploadDate)
             return date.toLocaleDateString();
         },
         strain(sequence) {
