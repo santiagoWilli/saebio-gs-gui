@@ -24,7 +24,7 @@
             >
                 <td><i>{{ strain(report) }}</i></td>
                 <td>{{ report._id.$oid }}</td>
-                <td>{{ report.requestDate }}</td>
+                <td>{{ date(report) }}</td>
                 <template v-if="report.files">
                     <td>Finalizado</td>
                     <td>
@@ -92,6 +92,10 @@ export default {
         },
         strain(report) {
             return this.indexedStrains[report.strain.$oid] ? this.indexedStrains[report.strain.$oid].name : ""
+        },
+        date(report) {
+            const date = new Date(report.requestDate + ' GMT+00:00')
+            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
         }
     },
     mounted() {
