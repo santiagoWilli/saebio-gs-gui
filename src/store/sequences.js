@@ -44,8 +44,8 @@ export default {
         }
     },
     actions: {
-        getSequences({ commit }) {
-            return Api.getSequences(this.getters.token)
+        getSequences({ commit }, params) {
+            return Api.getSequences(this.getters.token, params)
                 .then(response => {
                     commit('setSequences', response.data)
                     return true

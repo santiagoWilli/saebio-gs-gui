@@ -7,16 +7,40 @@
         >{{ uploadReferenceMessage }}</div>
         <div class="d-flex justify-content-between">
             <ReferenceUpload />
-            <div>
-                <label for="strain">Género y especie</label>
-                <select id="strain" v-model="strainId" class="mx-1">
-                    <option :value="null">Todas</option>
-                    <option
-                        v-for="strain in strainsFilter"
-                        :key="strain._id.$oid"
-                        :value="strain._id.$oid"
-                    >{{ strain.name }}</option>
-                </select>
+            <div class="d-flex">
+                <div>
+                    <label for="strain">Mes</label>
+                    <select id="month" v-model="month" class="mx-1" @change="updateReferences">
+                        <option
+                            v-for="n in 12"
+                            :key="`month${n}`"
+                            :value="n"
+                        >{{ n }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="strain">Año</label>
+                    <select id="year" v-model="year" class="mx-1" @change="updateReferences">
+                        <option
+                            v-for="n in currentYear()"
+                            :key="`year${n}`"
+                            :value="yearFrom(n)"
+                        >{{ yearFrom(n) }}</option>
+                    </select>
+                </div>
+                <div>
+                    <div>
+                        <label for="strain">Género y especie</label>
+                        <select id="strain" v-model="strainId" class="mx-1">
+                            <option :value="null">Todas</option>
+                            <option
+                                v-for="strain in strainsFilter"
+                                :key="strain._id.$oid"
+                                :value="strain._id.$oid"
+                            >{{ strain.name }}</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         <Table :headers="headers">
@@ -49,7 +73,9 @@ export default {
     data() {
         return {
             headers: ['Cepa', 'Generada tras el informe', 'Descargar'],
-            strainId: null
+            strainId: null,
+            month: new Date().getMonth() + 1,
+            year: new Date().getFullYear()
         }
     },
     computed: {
@@ -79,16 +105,26 @@ export default {
         },
         strainKey(reference) {
             return this.strains[reference.strain.$oid] ? this.strains[reference.strain.$oid].keys[0] : ""
+        },
+        currentYear() {
+            return parseInt(new Date().getFullYear().toString().substring(2,4))
+        },
+        yearFrom(n) {
+            if (n.toString().length === 1) return `200${n}`
+            return n.toString().length === 2 ? `20${n}` : `2${n}`
+        },
+        updateReferences() {
+            this.$store.dispatch('getReferences', { year: this.year, month: this.month })
+                .then(r => {
+                    if (!r) {
+                        this.$store.dispatch('logout')
+                        this.$router.push('/login')
+                    }
+                })
         }
     },
     mounted() {
-        this.$store.dispatch('getReferences')
-            .then(r => {
-                if (!r) {
-                    this.$store.dispatch('logout')
-                    this.$router.push('/login')
-                }
-            })
+        this.updateReferences()
         this.$store.dispatch('getIndexedStrains')
         this.$store.dispatch('getStrains')
     }

@@ -30,8 +30,8 @@ export default {
         }
     },
     actions: {
-        getReferences({ commit }) {
-            return Api.getReferences(this.getters.token)
+        getReferences({ commit }, params) {
+            return Api.getReferences(this.getters.token, params)
                 .then(response => {
                     commit('setReferences', response.data)
                     return true

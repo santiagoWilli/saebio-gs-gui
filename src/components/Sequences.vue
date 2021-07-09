@@ -7,16 +7,45 @@
         >{{ uploadSequenceMessage }}</div>
         <div class="d-flex justify-content-between">
             <SequenceUpload />
-            <div>
-                <label for="strain">Género y especie</label>
-                <select id="strain" v-model="strainId" class="mx-1">
-                    <option :value="null">Todas</option>
-                    <option
-                        v-for="strain in strainsFilter"
-                        :key="strain._id.$oid"
-                        :value="strain._id.$oid"
-                    >{{ strain.name }}</option>
-                </select>
+            <div class="d-flex">
+                <div>
+                    <label for="date-type">Fecha de</label>
+                    <select id="date-type" v-model="dateField" class="mx-1" @change="updateSequences">
+                        <option :value="null">secuencia</option>
+                        <option value="upload">subida</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="strain">Mes</label>
+                    <select id="month" v-model="month" class="mx-1" @change="updateSequences">
+                        <option
+                            v-for="n in 12"
+                            :key="`month${n}`"
+                            :value="n"
+                        >{{ n }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="strain">Año</label>
+                    <select id="year" v-model="year" class="mx-1" @change="updateSequences">
+                        <option
+                            v-for="n in currentYear()"
+                            :key="`year${n}`"
+                            :value="yearFrom(n)"
+                        >{{ yearFrom(n) }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="strain">Género y especie</label>
+                    <select id="strain" v-model="strainId" class="mx-1">
+                        <option :value="null">Todas</option>
+                        <option
+                            v-for="strain in strainsFilter"
+                            :key="strain._id.$oid"
+                            :value="strain._id.$oid"
+                        >{{ strain.name }}</option>
+                    </select>
+                </div>
             </div>
         </div>
         <Table :headers="headers">
@@ -51,7 +80,10 @@ export default {
         return {
             headers: ['Cepa', 'Nombre original', 'Fecha de la secuencia', 'Fecha de subida', 'Trimmed'],
             hoveredTr: null,
-            strainId: null
+            strainId: null,
+            month: new Date().getMonth() + 1,
+            year: new Date().getFullYear(),
+            dateField: null
         }
     },
     computed: {
@@ -95,16 +127,29 @@ export default {
         },
         strain(sequence) {
             return this.strains[sequence.strain.$oid] ? this.strains[sequence.strain.$oid].name : ""
+        },
+        currentYear() {
+            return parseInt(new Date().getFullYear().toString().substring(2,4))
+        },
+        yearFrom(n) {
+            if (n.toString().length === 1) return `200${n}`
+            return n.toString().length === 2 ? `20${n}` : `2${n}`
+        },
+        updateSequences() {
+            let params = this.dateField == null ?
+                { year: this.year, month: this.month } :
+                { year: this.year, month: this.month, field: 'uploadDate' }
+            this.$store.dispatch('getSequences', params)
+                .then(r => {
+                    if (!r) {
+                        this.$store.dispatch('logout')
+                        this.$router.push('/login')
+                    }
+                })
         }
     },
     mounted() {
-        this.$store.dispatch('getSequences')
-            .then(r => {
-                if (!r) {
-                    this.$store.dispatch('logout')
-                    this.$router.push('/login')
-                }
-            })
+        this.updateSequences()
         this.$store.dispatch('getIndexedStrains')
         this.$store.dispatch('getStrains')
     }

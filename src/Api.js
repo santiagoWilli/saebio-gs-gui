@@ -11,17 +11,12 @@ export default {
         })
     },
 
-    getSequences(token) {
-        return globalAxios.get(`${endpoint}/sequences`, authorization(token))
+    getSequences(token, params) {
+        return globalAxios.get(`${endpoint}/sequences`, authorizationWithParams(token, params))
     },
 
     getSequencesWithStrain(strainId, token) {
-        return globalAxios.get(`${endpoint}/sequences`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            params: objectToURLParams({strain: strainId})
-        })
+        return globalAxios.get(`${endpoint}/sequences`, authorizationWithParams(token, {strain: strainId}))
     },
 
     getSequence(id, token) {
@@ -44,17 +39,12 @@ export default {
         })
     },
 
-    getReferences(token) {
-        return globalAxios.get(`${endpoint}/references`, authorization(token))
+    getReferences(token, params) {
+        return globalAxios.get(`${endpoint}/references`, authorizationWithParams(token, params))
     },
 
     getReferencesWithStrain(strainId, token) {
-        return globalAxios.get(`${endpoint}/references`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            params: objectToURLParams({strain: strainId})
-        })
+        return globalAxios.get(`${endpoint}/references`, authorizationWithParams(token, {strain: strainId}))
     },
 
     getReference(id, token) {
@@ -100,8 +90,8 @@ export default {
         })
     },
 
-    getReports(token) {
-        return globalAxios.get(`${endpoint}/reports`, authorization(token))
+    getReports(token, params) {
+        return globalAxios.get(`${endpoint}/reports`, authorizationWithParams(token, params))
     },
 
     getReport(id, token) {
@@ -156,4 +146,13 @@ function downloadAuthorization(token) {
         },
         responseType: 'blob'
     }
+}
+
+function authorizationWithParams(token, params) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        params: objectToURLParams(params)
+    };
 }

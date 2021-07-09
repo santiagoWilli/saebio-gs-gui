@@ -15,8 +15,8 @@ export default {
         }
     },
     actions: {
-        getReports({ commit }) {
-            return Api.getReports(this.getters.token)
+        getReports({ commit }, params) {
+            return Api.getReports(this.getters.token, params)
                 .then(response => {
                     commit('setReports', response.data)
                     return true
