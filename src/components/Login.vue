@@ -6,7 +6,7 @@
                 <input type="text" class="form-control" id="username" v-model="user.username">
             </div>
             <div class="form-group">
-                <label for="password">Nombre de usuario</label>
+                <label for="password">Contraseña</label>
                 <input type="password" class="form-control" id="password" v-model="user.password">
             </div>
             <button type="submit" class="btn btn-primary">Acceder</button>
