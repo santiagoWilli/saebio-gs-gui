@@ -94,7 +94,7 @@ export default {
     },
     methods: {
         downloadReference(reference) {
-            const label = `${this.strainKey(reference)}${reference.code}.fa`
+            const label = `${this.strainKey(reference)}${reference.code ?? ''}.fa`
             Api.getReference(Utils.getId(reference), this.$store.getters.token)
                 .then(response => {
                     Utils.download(response, label)

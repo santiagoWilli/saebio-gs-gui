@@ -44,6 +44,13 @@ export default {
         ]
     }),
     methods: {
+        reportNameWithDate() {
+            const date = new Date(`${this.report.requestDate} GMT+00:00`)
+            const nameSplit = this.report.name.split(' ')
+            let name = '';
+            for (let i = 0; i < nameSplit.length - 2; i++) name += ` ${nameSplit[i]}`
+            return `${name} ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        },
         downloadReport() {
             if (this.reportFile != null) Utils.download(this.reportFile, `${this.report.name}.html`)
         },
@@ -55,7 +62,7 @@ export default {
                     vm.$refs.iframe.src = URL.createObjectURL(response.data)
 
                     vm.$refs.iframe.addEventListener("load", function() {
-                        vm.$refs.iframe.contentWindow.document.getElementsByTagName('h1')[0].innerText = vm.report.name
+                        vm.$refs.iframe.contentWindow.document.getElementsByTagName('h1')[0].innerText = vm.reportNameWithDate()
                         let iframe = vm.$refs.iframe.contentWindow.document
                         let cells = iframe.getElementById('jobinfo').getElementsByTagName('td')
                         cells[cells.length - 1].innerText = window.location.href
