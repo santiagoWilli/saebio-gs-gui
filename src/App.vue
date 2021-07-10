@@ -1,18 +1,21 @@
 <template>
-    <nav v-if="token" class="navbar navbar-expand-lg navbar-light bg-light mb-5 px-4">
-        <button class="navbar-brand btn" disabled>Sæbio</button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5 px-4">
+        <router-link to="/" class="navbar-brand btn">Sæbio</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
+            <div v-if="token" class="navbar-nav">
                 <router-link to="/sequences" class="nav-item nav-link">Secuencias</router-link>
                 <router-link to="/references" class="nav-item nav-link">Referencias</router-link>
                 <router-link to="/strains" class="nav-item nav-link">Definiciones</router-link>
                 <router-link to="/reports" class="nav-item nav-link">Informes</router-link>
             </div>
-            <div id="navbar-logout">
+            <div v-if="token" id="navbar-logout">
                 <button class="btn text-dark nav-item nav-link float-end" @click.prevent="logout">Cerrar sesión</button>
+            </div>
+            <div v-if="token == null && $route.path !== '/login'" id="navbar-login">
+                <button class="btn text-dark nav-item nav-link float-end" @click.prevent="$router.push('/login')">Iniciar sesión</button>
             </div>
         </div>
     </nav>
@@ -31,7 +34,7 @@ export default {
         ...mapActions(['readToken']),
         logout() {
             this.$store.dispatch('logout')
-            this.$router.push('/login')
+            this.$router.push('/')
         }
     },
     computed: {
@@ -52,12 +55,12 @@ export default {
 }
 
 /*noinspection CssInvalidPropertyValue*/
-#navbar-logout {
+#navbar-logout, #navbar-login {
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: fill-available;
 }
-#navbar-logout > button {
+#navbar-logout > button, #navbar-login > button {
     color: rgba(0,0,0,.9)
 }
 
