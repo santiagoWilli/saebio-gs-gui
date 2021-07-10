@@ -1,11 +1,11 @@
 <template>
     <div id="login-form" class="mx-auto mt-5">
         <form @submit.prevent="login(user)">
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <label for="username">Nombre de usuario</label>
                 <input type="text" class="form-control" id="username" v-model="user.username">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <label for="password">Contraseña</label>
                 <input type="password" class="form-control" id="password" v-model="user.password">
             </div>
