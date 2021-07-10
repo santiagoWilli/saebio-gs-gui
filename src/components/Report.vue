@@ -68,6 +68,8 @@ export default {
                         cells[cells.length - 1].innerText = window.location.href
 
                         iframe.body.innerHTML = vm.replaceLinks(iframe.body.innerHTML)
+                        let scriptTags = iframe.getElementsByTagName('script')
+                        scriptTags[scriptTags.length - 1].innerText = ''
 
                         vm.reportFile = response
                         vm.reportFile.data = iframe.documentElement.innerHTML
